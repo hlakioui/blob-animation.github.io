@@ -3,13 +3,14 @@ new Vue({
     data: {
         width: 0,
         height: 0,
-        cx: 0,
+        cx: 10,
         cy: 0,
-        blur: 20,
-        alphaMult: 18,
-        alphaAdd: -7,
+        blur: 26,
+        alphaMult: 100,
+        alphaAdd: -8,
         randomColors: true,
-        numElements: 100,
+        numElements: 80,
+        duration: 6,
         elements: []
     },
     mounted() {
@@ -18,9 +19,10 @@ new Vue({
 
         const gui = new dat.GUI();
         gui.add(this, "blur", 1, 50, 1);
-        gui.add(this, "alphaMult", 0, 50);
+        gui.add(this, "alphaMult", 0, 100);
         gui.add(this, "alphaAdd", -10, -1);
         gui.add(this, "randomColors");
+        gui.add(this, "duration", 1, 100, 1);
         gui.add(this, "numElements", 20, 500, 10);
         gui.close();
 
@@ -32,6 +34,9 @@ new Vue({
         },
         numElements() {
             this.shuffle();
+        },
+        duration() {
+            this.shuffle();
         }
     },
     computed: {
@@ -41,18 +46,19 @@ new Vue({
     },
     methods: {
         shuffle() {
+            let hexString = "0123456789abcdef";
             let elements = [];
-            let fill = randomColor({ luminosity: "bright", format: "rgba" });
+            let fill = randomColor({luminosity: "random", format: "rgb"});
             for (let i = 0; i < this.numElements; i++) {
                 if (this.randomColors)
-                    fill = randomColor({ luminosity: "bright", format: "rgba" });
+                    fill = randomColor({ count: 100, luminosity: "random", format: "rgb" });
                 let e = {
                     x: rnd(this.cx, true),
                     y: 0,
                     r: rnd(150),
                     fill,
                     delay: rnd(100, true),
-                    duration: 40 + rnd(5)
+                    duration: this.duration + rnd(5)
                 };
                 elements.push(e);
             }
