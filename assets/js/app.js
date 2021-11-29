@@ -3,7 +3,7 @@ new Vue({
     data: {
         width: 0,
         height: 0,
-        cx: 10,
+        cx: 20,
         cy: 0,
         blur: 26,
         alphaMult: 100,
@@ -46,18 +46,23 @@ new Vue({
     },
     methods: {
         shuffle() {
-            let hexString = "0123456789abcdef";
             let elements = [];
-            let fill = randomColor({luminosity: "random", format: "rgb"});
+            let fill = randomColor();
             for (let i = 0; i < this.numElements; i++) {
                 if (this.randomColors)
-                    fill = randomColor({ count: 100, luminosity: "random", format: "rgb" });
+                    fill = 'url("data:image/svg+xml,' +
+                        '<svg xmlns=\'http://www.w3.org/2000/svg\'>' +
+                        '<linearGradient id=\'grad\'><stop offset=\'0%\' stop-color=\''+ randomColor({ format: 'rgb' }) +'/>' +
+                        '<stop offset=\'100%\' stop-color=\''+ randomColor({ format: 'rgb' }) +'/>' +
+                        '</linearGradient>' +
+                        '</svg>#grad") ' +
+                        randomColor();
                 let e = {
                     x: rnd(this.cx, true),
                     y: 0,
                     r: rnd(150),
                     fill,
-                    delay: rnd(100, true),
+                    delay: rnd(50, true),
                     duration: this.duration + rnd(5)
                 };
                 elements.push(e);
@@ -74,6 +79,7 @@ new Vue({
         estyle(e) {
             return {
                 fill: e.fill,
+                "shape-rendering": "crispEdges",
                 "animation-delay": e.delay + "s",
                 "animation-duration": e.duration + "s"
             };
