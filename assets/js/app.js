@@ -9,8 +9,8 @@ new Vue({
         alphaMult: 100,
         alphaAdd: -8,
         randomColors: true,
-        numElements: 80,
-        duration: 6,
+        numElements: 40,
+        duration: 10,
         elements: []
     },
     mounted() {
@@ -49,14 +49,7 @@ new Vue({
             let elements = [];
             let fill = randomColor();
             for (let i = 0; i < this.numElements; i++) {
-                if (this.randomColors)
-                    fill = 'url("data:image/svg+xml,' +
-                        '<svg xmlns=\'http://www.w3.org/2000/svg\'>' +
-                        '<linearGradient id=\'grad\'><stop offset=\'0%\' stop-color=\''+ randomColor({ format: 'rgb' }) +'/>' +
-                        '<stop offset=\'100%\' stop-color=\''+ randomColor({ format: 'rgb' }) +'/>' +
-                        '</linearGradient>' +
-                        '</svg>#grad") ' +
-                        randomColor();
+                fill = "url(#gradient" + i + ")";
                 let e = {
                     x: rnd(this.cx, true),
                     y: 0,

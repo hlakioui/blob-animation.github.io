@@ -7,9 +7,22 @@
 </head>
 <body>
 
+<?php
+function rand_color() {
+    return sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+}
+
+?>
+?>
+
 <div id="app">
     <div id="svg-container">
         <svg id="svg" ref="svg" xmlns="http://www.w3.org/2000/svg" class="blob">
+            <?php
+            for ($i = 0; $i < 40; $i++) {
+                echo '<linearGradient x1="0" y1="0" x2="100%" y2="100%" id="gradient'.$i.'"><stop stop-color="'. rand_color() .'" offset="0"/><stop stop-color="'. rand_color() .'" offset="100%"/></linearGradient>';
+            }
+            ?>
             <defs>
                 <filter id="blobFilter">
                     <feGaussianBlur in="SourceGraphic" :key="blur" :std-deviation.camel="blur" result="blur"/>
